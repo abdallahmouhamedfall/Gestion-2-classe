@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduClass — Séances</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* styles similaires à dashboard pour les cartes */
+  :root {
+    --navy: #0D1B2A;
+    --teal: #00C9A7;
+    --sky: #4CC9F0;
+    --amber: #FFB830;
+    --rose: #FF6B6B;
+    --text-main: #E8EDF2;
+    --text-muted: #8FA3B8;
+    --card-bg: #162435;
+    --border: rgba(255,255,255,0.07);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'DM Sans',sans-serif; background:var(--navy); color:var(--text-main); }
+  #dashboard { display:flex; flex-direction:column; min-height:100vh; }
+  .topbar { height:64px; background:var(--card-bg); border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 28px; gap:16px; }
+  .topbar-brand { font-family:'Playfair Display',serif; font-size:18px; display:flex; align-items:center; gap:10px; }
+  .topbar-icon { width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--teal),var(--sky));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--navy); }
+  .topbar-right { margin-left:auto; display:flex; align-items:center; gap:16px; }
+  .topbar-date { font-size:12px; color:var(--text-muted); }
+  .avatar { width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--amber),var(--rose));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:white;cursor:pointer; }
+  .app-body { display:flex; flex:1; }
+  .sidebar { width:220px; background:var(--card-bg); border-right:1px solid var(--border); padding:24px 0; display:flex; flex-direction:column; gap:4px; }
+  .sidebar-section { padding:0 16px 8px; font-size:10px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-top:12px; }
+  .nav-item { margin:0 10px; padding:11px 14px; border-radius:10px; display:flex; align-items:center; gap:11px; font-size:13.5px; font-weight:500; color:var(--text-muted); }
+  .nav-item a { text-decoration:none; color:inherit; display:flex; align-items:center; gap:11px; width:100%; }
+  .nav-item:hover { background:rgba(255,255,255,.05); color:var(--text-main); }
+  .nav-item.active { background:rgba(0,201,167,.1); color:var(--teal); position:relative; }
+  .nav-item.active::before { content:''; position:absolute; left:-10px; top:50%; transform:translateY(-50%); width:3px; height:22px; background:var(--teal); border-radius:0 3px 3px 0; }
+  .nav-icon { font-size:16px; width:20px; text-align:center; }
+  .nav-badge { margin-left:auto; padding:2px 7px; border-radius:20px; background:rgba(0,201,167,.15); color:var(--teal); font-size:10px; }
+  .sidebar-bottom { margin-top:auto; padding:16px 10px 0; border-top:1px solid var(--border); }
+  .logout-btn { width:100%; padding:11px 14px; border-radius:10px; background:transparent; border:none; color:var(--text-muted); font-size:13px; cursor:pointer; display:flex; align-items:center; gap:10px; }
+  .logout-btn:hover { background:rgba(255,107,107,.08); color:var(--rose); }
+  .main { flex:1; overflow-y:auto; padding:28px 32px; }
+  .page-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:28px; }
+  .page-title { font-family:'Playfair Display',serif; font-size:28px; font-weight:700; }
+  .page-sub { font-size:13px; color:var(--text-muted); margin-top:4px; }
+  .btn-primary { background:var(--teal); color:var(--navy); padding:8px 16px; border-radius:8px; border:none; cursor:pointer; font-weight:600; }
+  .search-bar { background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:16px 20px; margin-bottom:24px; display:flex; gap:12px; }
+  .search-inp { flex:1; padding:9px 14px; border-radius:8px; background:rgba(255,255,255,.05); border:1px solid var(--border); color:var(--text-main); outline:none; }
+  .seances-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px,1fr)); gap:20px; }
+  .seance-card { background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:20px; transition:transform .2s; }
+  .seance-card:hover { transform:translateY(-3px); border-color:rgba(0,201,167,.3); }
+  .seance-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
+  .seance-matiere { font-weight:700; font-size:16px; }
+  .seance-time { font-size:12px; color:var(--text-muted); margin-top:4px; }
+  .seance-room { margin-top:10px; font-size:12px; color:var(--sky); background:rgba(76,201,240,.1); padding:4px 10px; border-radius:20px; display:inline-block; }
+  .seance-teacher { display:flex; align-items:center; gap:10px; margin-top:14px; font-size:13px; }
+  .avatar-sm { width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--teal),var(--sky));display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--navy); }
+  .badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; }
+  .badge-green { background:rgba(0,201,167,.12); color:var(--teal); }
+  .badge-sky { background:rgba(76,201,240,.12); color:var(--sky); }
+  .badge-amber { background:rgba(255,184,48,.12); color:var(--amber); }
+  .seance-progress { margin-top:16px; }
+  .prog-bar { height:4px; background:rgba(255,255,255,.08); border-radius:4px; margin-top:6px; }
+  .prog-fill { height:100%; border-radius:4px; }
+  .card-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:16px; padding-top:12px; border-top:1px solid var(--border); }
+  .icon-btn { width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer; }
+</style>
+</head>
+<body>
+<div id="dashboard">
+  <div class="topbar"><div class="topbar-brand"><div class="topbar-icon">E</div> EduClass</div><div class="topbar-right"><div class="topbar-date" id="currentDate"></div><div class="avatar" onclick="logout()">AD</div></div></div>
+  <div class="app-body">
+    <nav class="sidebar">
+      <div class="sidebar-section">Principal</div><div class="nav-item"><a href="dashboard.html"><span class="nav-icon">📊</span> Tableau de bord</a></div>
+      <div class="sidebar-section">Académique</div><div class="nav-item"><a href="etudiants.html"><span class="nav-icon">🎓</span> Étudiants <span class="nav-badge">5</span></a></div>
+      <div class="nav-item"><a href="enseignants.html"><span class="nav-icon">👨‍🏫</span> Enseignants <span class="nav-badge">4</span></a></div>
+      <div class="nav-item active"><a href="seances.html"><span class="nav-icon">📅</span> Séances</a></div>
+      <div class="sidebar-section">Gestion</div><div class="nav-item"><a href="notes.html"><span class="nav-icon">📝</span> Notes</a></div>
+      <div class="nav-item"><a href="evaluations.html"><span class="nav-icon">📋</span> Évaluations</a></div>
+      <div class="nav-item"><a href="planning.html"><span class="nav-icon">🗓️</span> Planning</a></div>
+      <div class="nav-item"><a href="absences.html"><span class="nav-icon">⚠️</span> Absences <span class="nav-badge">5</span></a></div>
+      <div class="sidebar-bottom"><button class="logout-btn" onclick="logout()">🚪 Déconnexion</button></div>
+    </nav>
+    <main class="main">
+      <div class="page-header"><div><div class="page-title">Séances de cours</div><div class="page-sub">Semaine du 8 au 12 juin 2026</div></div><button class="btn-primary" onclick="alert('Nouvelle séance')">+ Nouvelle séance</button></div>
+      <div class="search-bar"><input class="search-inp" id="searchInput" placeholder="🔍 Rechercher par matière, enseignant, salle..."><button class="icon-btn" onclick="alert('Filtre')">⚙️</button></div>
+      <div id="seancesContainer" class="seances-grid"></div>
+    </main>
+  </div>
+</div>
+<script>
+  const seances = [
+    { id:1, matiere:"Mathématiques", date:"Aujourd'hui", horaire:"08h00 › 10h00", salle:"Salle A12", enseignant:"M. Benali", initials:"MB", statut:"En cours", statutClass:"badge-green", progression:65, couleur:"var(--teal)" },
+    { id:2, matiere:"Physique-Chimie", date:"Aujourd'hui", horaire:"10h15 › 12h00", salle:"Labo L3", enseignant:"Mme Aïssaoui", initials:"KA", statut:"À venir", statutClass:"badge-sky", progression:0, couleur:"var(--sky)" },
+    { id:3, matiere:"Histoire-Géo", date:"Demain", horaire:"14h00 › 16h00", salle:"Salle B07", enseignant:"M. Dupont", initials:"DL", statut:"Planifiée", statutClass:"badge-amber", progression:0, couleur:"var(--amber)" },
+    { id:4, matiere:"Français", date:"Lundi 8", horaire:"13h30 › 15h30", salle:"Salle C02", enseignant:"Mme Nakache", initials:"NB", statut:"Terminée", statutClass:"badge-green", progression:100, couleur:"var(--teal)" },
+    { id:5, matiere:"Anglais", date:"Mardi 9", horaire:"10h15 › 12h00", salle:"Salle C05", enseignant:"Mme Rahmani", initials:"MR", statut:"Terminée", statutClass:"badge-green", progression:100, couleur:"var(--teal)" },
+    { id:6, matiere:"Informatique", date:"Mercredi 10", horaire:"08h00 › 10h00", salle:"Info1", enseignant:"M. Talbi", initials:"MT", statut:"À venir", statutClass:"badge-sky", progression:0, couleur:"var(--sky)" },
+    { id:7, matiere:"Mathématiques", date:"Jeudi 11", horaire:"08h00 › 10h00", salle:"Salle A12", enseignant:"M. Benali", initials:"MB", statut:"En cours", statutClass:"badge-green", progression:65, couleur:"var(--teal)" },
+    { id:8, matiere:"Physique-Chimie", date:"Jeudi 11", horaire:"10h15 › 12h00", salle:"Labo L3", enseignant:"Mme Aïssaoui", initials:"KA", statut:"À venir", statutClass:"badge-sky", progression:0, couleur:"var(--sky)" }
+  ];
+  function renderSeances(filter = "") {
+    const container = document.getElementById("seancesContainer");
+    const f = filter.toLowerCase();
+    const filtered = seances.filter(s => s.matiere.toLowerCase().includes(f) || s.enseignant.toLowerCase().includes(f) || s.salle.toLowerCase().includes(f));
+    container.innerHTML = filtered.map(s => `
+      <div class="seance-card">
+        <div class="seance-top"><div><div class="seance-matiere">${s.matiere}</div><div class="seance-time">📅 ${s.date} — ${s.horaire}</div></div><span class="badge ${s.statutClass}">${s.statut}</span></div>
+        <div class="seance-room">📍 ${s.salle}</div>
+        <div class="seance-teacher"><div class="avatar-sm">${s.initials}</div><span>${s.enseignant}</span></div>
+        <div class="seance-progress"><div style="display:flex;justify-content:space-between;font-size:11px;"><span>Progression</span><span>${s.progression}%</span></div><div class="prog-bar"><div class="prog-fill" style="width:${s.progression}%; background:${s.couleur};"></div></div></div>
+        <div class="card-actions"><button class="icon-btn" onclick="alert('Modifier séance ${s.id}')">✏️</button><button class="icon-btn" onclick="alert('Supprimer séance ${s.id}')">🗑️</button></div>
+      </div>
+    `).join("");
+  }
+  document.getElementById("searchInput").addEventListener("input", e => renderSeances(e.target.value));
+  function updateDate() { document.getElementById("currentDate").innerText = new Date().toLocaleDateString('fr-FR', { weekday:'long', year:'numeric', month:'long', day:'numeric' }).replace(/^\w/, c => c.toUpperCase()); }
+  function logout() { window.location.href = 'login.html'; }
+  updateDate(); renderSeances();
+</script>
+</body>
+</html>
