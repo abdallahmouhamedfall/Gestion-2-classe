@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduClass — Enseignants</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* mêmes styles que etudiants.html, adaptés */
+  :root {
+    --navy: #0D1B2A;
+    --teal: #00C9A7;
+    --sky: #4CC9F0;
+    --amber: #FFB830;
+    --rose: #FF6B6B;
+    --text-main: #E8EDF2;
+    --text-muted: #8FA3B8;
+    --card-bg: #162435;
+    --border: rgba(255,255,255,0.07);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'DM Sans',sans-serif; background:var(--navy); color:var(--text-main); }
+  #dashboard { display:flex; flex-direction:column; min-height:100vh; }
+  .topbar { height:64px; background:var(--card-bg); border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 28px; gap:16px; }
+  .topbar-brand { font-family:'Playfair Display',serif; font-size:18px; display:flex; align-items:center; gap:10px; }
+  .topbar-icon { width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--teal),var(--sky));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--navy); }
+  .topbar-right { margin-left:auto; display:flex; align-items:center; gap:16px; }
+  .topbar-date { font-size:12px; color:var(--text-muted); }
+  .avatar { width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--amber),var(--rose));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:white;cursor:pointer; }
+  .app-body { display:flex; flex:1; }
+  .sidebar { width:220px; background:var(--card-bg); border-right:1px solid var(--border); padding:24px 0; display:flex; flex-direction:column; gap:4px; }
+  .sidebar-section { padding:0 16px 8px; font-size:10px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-top:12px; }
+  .nav-item { margin:0 10px; padding:11px 14px; border-radius:10px; display:flex; align-items:center; gap:11px; font-size:13.5px; font-weight:500; color:var(--text-muted); }
+  .nav-item a { text-decoration:none; color:inherit; display:flex; align-items:center; gap:11px; width:100%; }
+  .nav-item:hover { background:rgba(255,255,255,.05); color:var(--text-main); }
+  .nav-item.active { background:rgba(0,201,167,.1); color:var(--teal); position:relative; }
+  .nav-item.active::before { content:''; position:absolute; left:-10px; top:50%; transform:translateY(-50%); width:3px; height:22px; background:var(--teal); border-radius:0 3px 3px 0; }
+  .nav-icon { font-size:16px; width:20px; text-align:center; }
+  .nav-badge { margin-left:auto; padding:2px 7px; border-radius:20px; background:rgba(0,201,167,.15); color:var(--teal); font-size:10px; }
+  .sidebar-bottom { margin-top:auto; padding:16px 10px 0; border-top:1px solid var(--border); }
+  .logout-btn { width:100%; padding:11px 14px; border-radius:10px; background:transparent; border:none; color:var(--text-muted); font-size:13px; cursor:pointer; display:flex; align-items:center; gap:10px; }
+  .logout-btn:hover { background:rgba(255,107,107,.08); color:var(--rose); }
+  .main { flex:1; overflow-y:auto; padding:28px 32px; }
+  .page-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:28px; }
+  .page-title { font-family:'Playfair Display',serif; font-size:28px; font-weight:700; }
+  .page-sub { font-size:13px; color:var(--text-muted); margin-top:4px; }
+  .btn-primary { background:var(--teal); color:var(--navy); padding:8px 16px; border-radius:8px; border:none; cursor:pointer; font-weight:600; }
+  .table-card { background:var(--card-bg); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
+  .table-search { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; gap:12px; }
+  .search-inp { flex:1; padding:9px 14px; border-radius:8px; background:rgba(255,255,255,.05); border:1px solid var(--border); color:var(--text-main); outline:none; }
+  table { width:100%; border-collapse:collapse; }
+  th { padding:12px 20px; font-size:11px; font-weight:600; text-transform:uppercase; color:var(--text-muted); text-align:left; border-bottom:1px solid var(--border); }
+  td { padding:14px 20px; font-size:13.5px; border-bottom:1px solid var(--border); }
+  .td-user { display:flex; align-items:center; gap:10px; }
+  .avatar-sm { width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--teal),var(--sky));display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--navy); }
+  .badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; }
+  .badge-green { background:rgba(0,201,167,.12); color:var(--teal); }
+  .badge-sky { background:rgba(76,201,240,.12); color:var(--sky); }
+  .badge-amber { background:rgba(255,184,48,.12); color:var(--amber); }
+  .icon-btn { width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer; }
+</style>
+</head>
+<body>
+<div id="dashboard">
+  <div class="topbar"><div class="topbar-brand"><div class="topbar-icon">E</div> EduClass</div><div class="topbar-right"><div class="topbar-date" id="currentDate"></div><div class="avatar" onclick="logout()">AD</div></div></div>
+  <div class="app-body">
+    <nav class="sidebar">
+      <div class="sidebar-section">Principal</div><div class="nav-item"><a href="dashboard.html"><span class="nav-icon">📊</span> Tableau de bord</a></div>
+      <div class="sidebar-section">Académique</div><div class="nav-item"><a href="etudiants.html"><span class="nav-icon">🎓</span> Étudiants <span class="nav-badge">5</span></a></div>
+      <div class="nav-item active"><a href="enseignants.html"><span class="nav-icon">👨‍🏫</span> Enseignants <span class="nav-badge">4</span></a></div>
+      <div class="nav-item"><a href="seances.html"><span class="nav-icon">📅</span> Séances</a></div>
+      <div class="sidebar-section">Gestion</div><div class="nav-item"><a href="notes.html"><span class="nav-icon">📝</span> Notes</a></div>
+      <div class="nav-item"><a href="evaluations.html"><span class="nav-icon">📋</span> Évaluations</a></div>
+      <div class="nav-item"><a href="planning.html"><span class="nav-icon">🗓️</span> Planning</a></div>
+      <div class="nav-item"><a href="absences.html"><span class="nav-icon">⚠️</span> Absences <span class="nav-badge">5</span></a></div>
+      <div class="sidebar-bottom"><button class="logout-btn" onclick="logout()">🚪 Déconnexion</button></div>
+    </nav>
+    <main class="main">
+      <div class="page-header"><div><div class="page-title">Enseignants</div><div class="page-sub">Corps enseignant — 4 professeurs</div></div><button class="btn-primary" onclick="alert('Ajouter enseignant')">+ Ajouter enseignant</button></div>
+      <div class="table-card">
+        <div class="table-search"><input class="search-inp" id="searchInput" placeholder="🔍 Rechercher un enseignant..."><button class="icon-btn" onclick="alert('Filtre')">⚙️</button><button class="icon-btn" onclick="exportCSV()">📎</button></div>
+        <table><thead><tr><th>Enseignant</th><th>Matière</th><th>Séances/sem.</th><th>Heures totales</th><th>Étudiants</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="tableBody"></tbody></table>
+      </div>
+    </main>
+  </div>
+</div>
+<script>
+  const enseignants = [
+    { name: "M. Benali", initials: "MB", email: "m.benali@educlass.fr", matiere: "Mathématiques", matiereClass: "badge-green", seances: 6, heures: 48, etudiants: 5, status: "Présent", statusClass: "badge-green" },
+    { name: "Mme Aïssaoui", initials: "KA", email: "k.aissaoui@educlass.fr", matiere: "Physique-Chimie", matiereClass: "badge-sky", seances: 5, heures: 40, etudiants: 5, status: "Présent", statusClass: "badge-green" },
+    { name: "M. Dupont", initials: "DL", email: "d.dupont@educlass.fr", matiere: "Histoire-Géo", matiereClass: "badge-amber", seances: 4, heures: 32, etudiants: 5, status: "En congé", statusClass: "badge-amber" },
+    { name: "Mme Nakache", initials: "NB", email: "n.nakache@educlass.fr", matiere: "Français", matiereClass: "badge-sky", seances: 5, heures: 40, etudiants: 5, status: "Présent", statusClass: "badge-green" }
+  ];
+  function renderTable(filter = "") {
+    const tbody = document.getElementById("tableBody");
+    const f = filter.toLowerCase();
+    const filtered = enseignants.filter(e => e.name.toLowerCase().includes(f) || e.matiere.toLowerCase().includes(f));
+    tbody.innerHTML = filtered.map(e => `
+      <tr>
+        <td><div class="td-user"><div class="avatar-sm">${e.initials}</div><div><div class="td-name">${e.name}</div><div class="td-email" style="font-size:11px;color:var(--text-muted)">${e.email}</div></div></div></td>
+        <td><span class="badge ${e.matiereClass}">${e.matiere}</span></td>
+        <td>${e.seances}</td><td>${e.heures}h</td><td>${e.etudiants}</td>
+        <td><span class="badge ${e.statusClass}">${e.status}</span></td>
+        <td><button class="icon-btn" onclick="alert('Voir ${e.name}')">👁</button><button class="icon-btn" onclick="alert('Modifier ${e.name}')">✏️</button></td>
+      </tr>
+    `).join("");
+  }
+  function exportCSV() { let csv = "Nom,Matière,Séances/sem.,Heures,Étudiants,Statut\n"; enseignants.forEach(e => csv += `${e.name},${e.matiere},${e.seances},${e.heures},${e.etudiants},${e.status}\n`); const blob = new Blob([csv], {type:"text/csv"}); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "enseignants.csv"; a.click(); URL.revokeObjectURL(a.href); }
+  document.getElementById("searchInput").addEventListener("input", e => renderTable(e.target.value));
+  function updateDate() { document.getElementById("currentDate").innerText = new Date().toLocaleDateString('fr-FR', { weekday:'long', year:'numeric', month:'long', day:'numeric' }).replace(/^\w/, c => c.toUpperCase()); }
+  function logout() { window.location.href = 'login.html'; }
+  updateDate(); renderTable();
+</script>
+</body>
+</html>
