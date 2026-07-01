@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>&Eacute;valuations</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/evaluations.css">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <span class="logo-icon">E</span>
+            <div>
+                <h2>EduClass</h2>
+                <p>Gestion Acad&eacute;mique</p>
+            </div>
+        </div>
+
+        <nav>
+            <h4>Principal</h4>
+            <a href="dashboard.html">&#128202; Tableau de bord</a>
+
+            <h4>Acad&eacute;mique</h4>
+            <a href="etudiants.html">&#127891; &Eacute;tudiants <span>42</span></a>
+            <a href="enseignants.html">&#128104;&#8205;&#127979; Enseignants <span>8</span></a>
+            <a href="seances.html">&#128197; S&eacute;ances</a>
+
+            <h4>Gestion</h4>
+            <a href="notes.html">&#128221; Notes</a>
+            <a href="evaluations.html" class="active">&#128203; &Eacute;valuations</a>
+            <a href="planning.html">&#128467;&#65039; Planning</a>
+            <a href="absences.html">&#9888;&#65039; Absences <span>5</span></a>
+        </nav>
+
+        <button class="logout-btn" type="button">&#128682; D&eacute;connexion</button>
+    </aside>
+
+    <main class="main">
+        <header class="page-header">
+            <p class="date">Mercredi 10 juin 2026</p>
+            <div class="header-actions">
+                <button class="icon-button" aria-label="Notifications">&#128276;</button>
+                <div class="avatar">AD</div>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="hero-content">
+                <div>
+                    <h1>&Eacute;valuations</h1>
+                    <p>Calendrier des examens, contr&ocirc;les et devoirs</p>
+                </div>
+                <button class="btn-add-eval">+ Nouvelle &eacute;valuation</button>
+            </div>
+        </section>
+
+        <section class="evaluations-section">
+            <div class="toolbar-section">
+                <div class="search-bar">
+                    <span class="search-icon" aria-hidden="true">&#128269;</span>
+                    <input type="text" placeholder="Rechercher une &eacute;valuation (mati&egrave;re, type, statut)..." class="search-input">
+                </div>
+                <div class="toolbar-actions">
+                    <button class="btn-filter">Filtre &#9662;</button>
+                    <button class="btn-export">Export &#9662;</button>
+                </div>
+            </div>
+
+            <article class="evaluations-card">
+                <div class="table-wrapper">
+                    <table class="evaluations-table">
+                        <thead>
+                            <tr>
+                                <th>&Eacute;valuation</th>
+                                <th>Mati&egrave;re</th>
+                                <th>Date</th>
+                                <th>Dur&eacute;e</th>
+                                <th>Type</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>DS Maths #3</td>
+                                <td>Math&eacute;matiques</td>
+                                <td>12 juin 2026</td>
+                                <td>2h</td>
+                                <td><span class="type-badge exam">&Eacute;crit</span></td>
+                                <td><span class="status-badge upcoming">&Agrave; venir</span></td>
+                                <td>
+                                    <div class="action-icons">
+                                        <button class="icon-btn" aria-label="Modifier">&#9998;&#65039;</button>
+                                        <button class="icon-btn" aria-label="Supprimer">&#128465;&#65039;</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>TP Physique</td>
+                                <td>Physique-Chimie</td>
+                                <td>14 juin 2026</td>
+                                <td>3h</td>
+                                <td><span class="type-badge pratique">Pratique</span></td>
+                                <td><span class="status-badge upcoming">&Agrave; venir</span></td>
+                                <td>
+                                    <div class="action-icons">
+                                        <button class="icon-btn" aria-label="Modifier">&#9998;&#65039;</button>
+                                        <button class="icon-btn" aria-label="Supprimer">&#128465;&#65039;</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Expos&eacute; Histoire</td>
+                                <td>Histoire-G&eacute;o</td>
+                                <td>8 juin 2026</td>
+                                <td>30min</td>
+                                <td><span class="type-badge oral">Oral</span></td>
+                                <td><span class="status-badge initiated">En cours</span></td>
+                                <td>
+                                    <div class="action-icons">
+                                        <button class="icon-btn" aria-label="Modifier">&#9998;&#65039;</button>
+                                        <button class="icon-btn" aria-label="Supprimer">&#128465;&#65039;</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Contr&ocirc;le Fran&ccedil;ais</td>
+                                <td>Fran&ccedil;ais</td>
+                                <td>5 juin 2026</td>
+                                <td>1h</td>
+                                <td><span class="type-badge exam">&Eacute;crit</span></td>
+                                <td><span class="status-badge completed">Corrig&eacute;</span></td>
+                                <td>
+                                    <div class="action-icons">
+                                        <button class="icon-btn" aria-label="Modifier">&#9998;&#65039;</button>
+                                        <button class="icon-btn" aria-label="Supprimer">&#128465;&#65039;</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Exam Anglais S2</td>
+                                <td>Anglais</td>
+                                <td>20 juin 2026</td>
+                                <td>2h</td>
+                                <td><span class="type-badge exam">&Eacute;crit</span></td>
+                                <td><span class="status-badge upcoming">&Agrave; venir</span></td>
+                                <td>
+                                    <div class="action-icons">
+                                        <button class="icon-btn" aria-label="Modifier">&#9998;&#65039;</button>
+                                        <button class="icon-btn" aria-label="Supprimer">&#128465;&#65039;</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+        </section>
+    </main>
+    <script src="../js/app.js"></script>
+</body>
+
+</html>
+
