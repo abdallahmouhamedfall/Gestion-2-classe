@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduClass — Tableau de bord</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dasboard.css"></head>
+<body>
+<div id="dashboard">
+  <div class="topbar">
+    <div class="topbar-brand"><div class="topbar-icon">E</div> EduClass</div>
+    <div class="topbar-right"><div class="topbar-date" id="currentDate"></div><div class="notif-btn">🔔<div class="notif-dot"></div></div><div class="avatar" onclick="logout()">AD</div></div>
+  </div>
+  <div class="app-body">
+    <nav class="sidebar">
+      <div class="sidebar-section">Principal</div>
+      <div class="nav-item active"><a href="dashboard.html"><span class="nav-icon">📊</span> Tableau de bord</a></div>
+      <div class="sidebar-section">Académique</div>
+      <div class="nav-item"><a href="etudiants.html"><span class="nav-icon">🎓</span> Étudiants <span class="nav-badge">5</span></a></div>
+      <div class="nav-item"><a href="enseignants.html"><span class="nav-icon">👨‍🏫</span> Enseignants <span class="nav-badge">4</span></a></div>
+      <div class="nav-item"><a href="seances.html"><span class="nav-icon">📅</span> Séances</a></div>
+      <div class="sidebar-section">Gestion</div>
+      <div class="nav-item"><a href="notes.html"><span class="nav-icon">📝</span> Notes</a></div>
+      <div class="nav-item"><a href="evaluations.html"><span class="nav-icon">📋</span> Évaluations</a></div>
+      <div class="nav-item"><a href="planning.html"><span class="nav-icon">🗓️</span> Planning</a></div>
+      <div class="nav-item"><a href="absences.html"><span class="nav-icon">⚠️</span> Absences <span class="nav-badge rose">5</span></a></div>
+      <div class="sidebar-bottom"><button class="logout-btn" onclick="logout()">🚪 Déconnexion</button></div>
+    </nav>
+    <main class="main">
+      <div class="page-header"><div class="page-title">Tableau de bord</div><div class="page-sub">Vue d'ensemble de la classe — Promotion 2025/2026</div></div>
+      <div class="stats-grid">
+        <div class="stat-card" style="--accent-color:var(--teal)"><div class="stat-icon">🎓</div><div class="stat-val">5</div><div class="stat-label">Étudiants inscrits</div><div class="stat-trend trend-up">↑ +2 ce mois</div><div class="stat-bar"><div class="stat-bar-fill" style="width:100%;background:var(--teal)"></div></div></div>
+        <div class="stat-card" style="--accent-color:var(--sky)"><div class="stat-icon">👨‍🏫</div><div class="stat-val">4</div><div class="stat-label">Enseignants actifs</div><div class="stat-trend">✓ Tous présents</div><div class="stat-bar"><div class="stat-bar-fill" style="width:100%;background:var(--sky)"></div></div></div>
+        <div class="stat-card" style="--accent-color:var(--amber)"><div class="stat-icon">📊</div><div class="stat-val">13.4</div><div class="stat-label">Moyenne générale /20</div><div class="stat-trend trend-up">↑ +0.6</div><div class="stat-bar"><div class="stat-bar-fill" style="width:67%;background:var(--amber)"></div></div></div>
+        <div class="stat-card" style="--accent-color:var(--rose)"><div class="stat-icon">⚠️</div><div class="stat-val">5</div><div class="stat-label">Absences cette semaine</div><div class="stat-trend trend-down">↓ –2</div><div class="stat-bar"><div class="stat-bar-fill" style="width:20%;background:var(--rose)"></div></div></div>
+      </div>
+      <div class="charts-row">
+        <div class="chart-card"><h4>Répartition des moyennes par matière</h4><div class="bar-chart"><div class="bar-wrap"><div class="bar" style="height:80%;background:linear-gradient(to top,var(--teal),rgba(0,201,167,.4))"></div><div class="bar-label">Maths</div></div><div class="bar-wrap"><div class="bar" style="height:65%;background:linear-gradient(to top,var(--sky),rgba(76,201,240,.4))"></div><div class="bar-label">Physique</div></div><div class="bar-wrap"><div class="bar" style="height:70%;background:linear-gradient(to top,var(--amber),rgba(255,184,48,.4))"></div><div class="bar-label">Histoire</div></div><div class="bar-wrap"><div class="bar" style="height:85%;background:linear-gradient(to top,#c084fc,rgba(168,85,247,.4))"></div><div class="bar-label">Français</div></div><div class="bar-wrap"><div class="bar" style="height:75%;background:linear-gradient(to top,var(--rose),rgba(255,107,107,.4))"></div><div class="bar-label">Anglais</div></div></div></div>
+        <div class="chart-card"><h4>Taux de présence</h4><div class="donut-wrap"><div class="donut"><svg viewBox="0 0 80 80" width="90" height="90"><circle cx="40" cy="40" r="30" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="10"/><circle cx="40" cy="40" r="30" fill="none" stroke="var(--teal)" stroke-width="10" stroke-dasharray="170 189" stroke-linecap="round"/><circle cx="40" cy="40" r="30" fill="none" stroke="var(--rose)" stroke-width="10" stroke-dasharray="12 189" stroke-dashoffset="-170" stroke-linecap="round"/><circle cx="40" cy="40" r="30" fill="none" stroke="var(--amber)" stroke-width="10" stroke-dasharray="7 189" stroke-dashoffset="-182" stroke-linecap="round"/></svg><div class="donut-val">90%</div></div><div class="donut-legend"><div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> Présents 90%</div><div class="legend-item"><div class="legend-dot" style="background:var(--rose)"></div> Absents 6%</div><div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div> Retards 4%</div></div></div></div>
+      </div>
+      <div class="section-hdr"><div class="section-title">Prochaines séances</div><a href="seances.html" class="btn-sm" style="text-decoration:none;">Voir tout →</a></div>
+      <div class="seances-grid">
+        <div class="seance-card"><div class="seance-top"><div><div class="seance-matiere">Mathématiques</div><div class="seance-time">Aujourd'hui — 08h00 › 10h00</div></div><span class="badge badge-green">En cours</span></div><div class="seance-room">Salle A12</div><div class="seance-teacher"><div class="avatar-sm">MB</div> M. Benali</div><div class="seance-progress"><div style="display:flex;justify-content:space-between;font-size:10px;"><span>Progression</span><span>65%</span></div><div class="prog-bar"><div class="prog-fill" style="width:65%;background:var(--teal)"></div></div></div></div>
+        <div class="seance-card"><div class="seance-top"><div><div class="seance-matiere">Physique-Chimie</div><div class="seance-time">Aujourd'hui — 10h15 › 12h00</div></div><span class="badge badge-sky">À venir</span></div><div class="seance-room">Labo L3</div><div class="seance-teacher"><div class="avatar-sm amber">KA</div> Mme Aïssaoui</div><div class="seance-progress"><div style="display:flex;justify-content:space-between;font-size:10px;"><span>Progression</span><span>0%</span></div><div class="prog-bar"><div class="prog-fill" style="width:0%;background:var(--sky)"></div></div></div></div>
+        <div class="seance-card"><div class="seance-top"><div><div class="seance-matiere">Histoire-Géo</div><div class="seance-time">Demain — 14h00 › 16h00</div></div><span class="badge badge-amber">Planifiée</span></div><div class="seance-room">Salle B07</div><div class="seance-teacher"><div class="avatar-sm rose">DL</div> M. Dupont</div><div class="seance-progress"><div style="display:flex;justify-content:space-between;font-size:10px;"><span>Progression</span><span>0%</span></div><div class="prog-bar"><div class="prog-fill" style="width:0%;background:var(--amber)"></div></div></div></div>
+      </div>
+    </main>
+  </div>
+</div>
+<script>
+  function updateDate() {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const today = new Date().toLocaleDateString('fr-FR', options);
+    document.getElementById('currentDate').innerText = today.charAt(0).toUpperCase() + today.slice(1);
+  }
+  function logout() { window.location.href = 'login.html'; }
+  updateDate();
+</script>
+</body>
+</html>

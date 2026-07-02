@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduClass — Séances</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/seances.css">  
+
+</head>
+<body>
+<div id="dashboard">
+  <div class="topbar"><div class="topbar-brand"><div class="topbar-icon">E</div> EduClass</div><div class="topbar-right"><div class="topbar-date" id="currentDate"></div><div class="avatar" onclick="logout()">AD</div></div></div>
+  <div class="app-body">
+    <nav class="sidebar">
+      <div class="sidebar-section">Principal</div><div class="nav-item"><a href="dashboard.html"><span class="nav-icon">📊</span> Tableau de bord</a></div>
+      <div class="sidebar-section">Académique</div><div class="nav-item"><a href="etudiants.html"><span class="nav-icon">🎓</span> Étudiants <span class="nav-badge">5</span></a></div>
+      <div class="nav-item"><a href="enseignants.html"><span class="nav-icon">👨‍🏫</span> Enseignants <span class="nav-badge">4</span></a></div>
+      <div class="nav-item active"><a href="seances.html"><span class="nav-icon">📅</span> Séances</a></div>
+      <div class="sidebar-section">Gestion</div><div class="nav-item"><a href="notes.html"><span class="nav-icon">📝</span> Notes</a></div>
+      <div class="nav-item"><a href="evaluations.html"><span class="nav-icon">📋</span> Évaluations</a></div>
+      <div class="nav-item"><a href="planning.html"><span class="nav-icon">🗓️</span> Planning</a></div>
+      <div class="nav-item"><a href="absences.html"><span class="nav-icon">⚠️</span> Absences <span class="nav-badge">5</span></a></div>
+      <div class="sidebar-bottom"><button class="logout-btn" onclick="logout()">🚪 Déconnexion</button></div>
+    </nav>
+    <main class="main">
+      <div class="page-header"><div><div class="page-title">Séances de cours</div><div class="page-sub">Semaine du 8 au 12 juin 2026</div></div><button class="btn-primary" onclick="alert('Nouvelle séance')">+ Nouvelle séance</button></div>
+      <div class="search-bar"><input class="search-inp" id="searchInput" placeholder="🔍 Rechercher par matière, enseignant, salle..."><button class="icon-btn" onclick="alert('Filtre')">⚙️</button></div>
+      <div id="seancesContainer" class="seances-grid"></div>
+    </main>
+  </div>
+</div>
+<script>
+  const seances = [
+    { id:1, matiere:"Mathématiques", date:"Aujourd'hui", horaire:"08h00 › 10h00", salle:"Salle A12", enseignant:"M. Benali", initials:"MB", statut:"En cours", statutClass:"badge-green", progression:65, couleur:"var(--teal)" },
+    { id:2, matiere:"Physique-Chimie", date:"Aujourd'hui", horaire:"10h15 › 12h00", salle:"Labo L3", enseignant:"Mme Aïssaoui", initials:"KA", statut:"À venir", statutClass:"badge-sky", progression:0, couleur:"var(--sky)" },
+    { id:3, matiere:"Histoire-Géo", date:"Demain", horaire:"14h00 › 16h00", salle:"Salle B07", enseignant:"M. Dupont", initials:"DL", statut:"Planifiée", statutClass:"badge-amber", progression:0, couleur:"var(--amber)" },
+    { id:4, matiere:"Français", date:"Lundi 8", horaire:"13h30 › 15h30", salle:"Salle C02", enseignant:"Mme Nakache", initials:"NB", statut:"Terminée", statutClass:"badge-green", progression:100, couleur:"var(--teal)" },
+    { id:5, matiere:"Anglais", date:"Mardi 9", horaire:"10h15 › 12h00", salle:"Salle C05", enseignant:"Mme Rahmani", initials:"MR", statut:"Terminée", statutClass:"badge-green", progression:100, couleur:"var(--teal)" },
+    { id:6, matiere:"Informatique", date:"Mercredi 10", horaire:"08h00 › 10h00", salle:"Info1", enseignant:"M. Talbi", initials:"MT", statut:"À venir", statutClass:"badge-sky", progression:0, couleur:"var(--sky)" },
+    { id:7, matiere:"Mathématiques", date:"Jeudi 11", horaire:"08h00 › 10h00", salle:"Salle A12", enseignant:"M. Benali", initials:"MB", statut:"En cours", statutClass:"badge-green", progression:65, couleur:"var(--teal)" },
+    { id:8, matiere:"Physique-Chimie", date:"Jeudi 11", horaire:"10h15 › 12h00", salle:"Labo L3", enseignant:"Mme Aïssaoui", initials:"KA", statut:"À venir", statutClass:"badge-sky", progression:0, couleur:"var(--sky)" }
+  ];
+  function renderSeances(filter = "") {
+    const container = document.getElementById("seancesContainer");
+    const f = filter.toLowerCase();
+    const filtered = seances.filter(s => s.matiere.toLowerCase().includes(f) || s.enseignant.toLowerCase().includes(f) || s.salle.toLowerCase().includes(f));
+    container.innerHTML = filtered.map(s => `
+      <div class="seance-card">
+        <div class="seance-top"><div><div class="seance-matiere">${s.matiere}</div><div class="seance-time">📅 ${s.date} — ${s.horaire}</div></div><span class="badge ${s.statutClass}">${s.statut}</span></div>
+        <div class="seance-room">📍 ${s.salle}</div>
+        <div class="seance-teacher"><div class="avatar-sm">${s.initials}</div><span>${s.enseignant}</span></div>
+        <div class="seance-progress"><div style="display:flex;justify-content:space-between;font-size:11px;"><span>Progression</span><span>${s.progression}%</span></div><div class="prog-bar"><div class="prog-fill" style="width:${s.progression}%; background:${s.couleur};"></div></div></div>
+        <div class="card-actions"><button class="icon-btn" onclick="alert('Modifier séance ${s.id}')">✏️</button><button class="icon-btn" onclick="alert('Supprimer séance ${s.id}')">🗑️</button></div>
+      </div>
+    `).join("");
+  }
+  document.getElementById("searchInput").addEventListener("input", e => renderSeances(e.target.value));
+  function updateDate() { document.getElementById("currentDate").innerText = new Date().toLocaleDateString('fr-FR', { weekday:'long', year:'numeric', month:'long', day:'numeric' }).replace(/^\w/, c => c.toUpperCase()); }
+  function logout() { window.location.href = 'login.html'; }
+  updateDate(); renderSeances();
+</script>
+</body>
+</html>

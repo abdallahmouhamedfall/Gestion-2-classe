@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduClass — Étudiants</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/etudiants.css">
+  </head>
+<body>
+<div id="dashboard">
+  <div class="topbar"><div class="topbar-brand"><div class="topbar-icon">E</div> EduClass</div><div class="topbar-right"><div class="topbar-date" id="currentDate"></div><div class="avatar" onclick="logout()">AD</div></div></div>
+  <div class="app-body">
+    <nav class="sidebar">
+      <div class="sidebar-section">Principal</div><div class="nav-item"><a href="dashboard.html"><span class="nav-icon">📊</span> Tableau de bord</a></div>
+      <div class="sidebar-section">Académique</div><div class="nav-item active"><a href="etudiants.html"><span class="nav-icon">🎓</span> Étudiants <span class="nav-badge">5</span></a></div>
+      <div class="nav-item"><a href="enseignants.html"><span class="nav-icon">👨‍🏫</span> Enseignants <span class="nav-badge">4</span></a></div>
+      <div class="nav-item"><a href="seances.html"><span class="nav-icon">📅</span> Séances</a></div>
+      <div class="sidebar-section">Gestion</div><div class="nav-item"><a href="notes.html"><span class="nav-icon">📝</span> Notes</a></div>
+      <div class="nav-item"><a href="evaluations.html"><span class="nav-icon">📋</span> Évaluations</a></div>
+      <div class="nav-item"><a href="planning.html"><span class="nav-icon">🗓️</span> Planning</a></div>
+      <div class="nav-item"><a href="absences.html"><span class="nav-icon">⚠️</span> Absences <span class="nav-badge">5</span></a></div>
+      <div class="sidebar-bottom"><button class="logout-btn" onclick="logout()">🚪 Déconnexion</button></div>
+    </nav>
+    <main class="main">
+      <div class="page-header"><div><div class="page-title">Étudiants</div><div class="page-sub">5 étudiants inscrits — Promotion 2025/2026</div></div><button class="btn-primary" onclick="alert('Ajouter étudiant')">+ Ajouter étudiant</button></div>
+      <div class="table-card">
+        <div class="table-search"><input class="search-inp" id="searchInput" placeholder="🔍 Rechercher un étudiant..."><button class="icon-btn" onclick="alert('Filtre')">⚙️</button><button class="icon-btn" onclick="exportCSV()">📎</button></div>
+        <table id="etudiantsTable"><thead><tr><th>Étudiant</th><th>Matricule</th><th>Groupe</th><th>Moyenne</th><th>Absences</th><th>Statut</th><th>Actions</th></thead><tbody id="tableBody"></tbody></table>
+      </div>
+    </main>
+  </div>
+</div>
+<script>
+  const etudiants = [
+    { name: "Penda Coly", initials: "PC", email: "p.coly@classe.fr", matricule: "2026-001", group: "G1", moyenne: 15.2, absences: 2, status: "Actif", statusClass: "badge-green", moyenneClass: "good" },
+    { name: "Ndeye Yacine Ndiaye", initials: "NYN", email: "ny.ndiaye@classe.fr", matricule: "2026-002", group: "G2", moyenne: 12.8, absences: 5, status: "À suivre", statusClass: "badge-amber", moyenneClass: "avg" },
+    { name: "Fatou Gniop", initials: "FG", email: "f.gniop@classe.fr", matricule: "2026-003", group: "G1", moyenne: 17.1, absences: 0, status: "Actif", statusClass: "badge-green", moyenneClass: "good" },
+    { name: "Yacine Meziane", initials: "YM", email: "y.meziane@classe.fr", matricule: "2026-004", group: "G3", moyenne: 8.3, absences: 12, status: "En difficulté", statusClass: "badge-rose", moyenneClass: "bad" },
+    { name: "Lina Khelil", initials: "LK", email: "l.khelil@classe.fr", matricule: "2026-005", group: "G2", moyenne: 14.7, absences: 1, status: "Actif", statusClass: "badge-green", moyenneClass: "good" }
+  ];
+  function renderTable(filter = "") {
+    const tbody = document.getElementById("tableBody");
+    const f = filter.toLowerCase();
+    const filtered = etudiants.filter(e => e.name.toLowerCase().includes(f) || e.email.includes(f));
+    tbody.innerHTML = filtered.map(e => `
+      <tr>
+        <td><div class="td-user"><div class="avatar-sm">${e.initials}</div><div><div class="td-name">${e.name}</div><div class="td-email" style="font-size:11px;color:var(--text-muted)">${e.email}</div></div></div></td>
+        <td>${e.matricule}</td><td>${e.group}</td>
+        <td class="${e.moyenneClass}">${e.moyenne}</td><td>${e.absences}</td>
+        <td><span class="badge ${e.statusClass}">${e.status}</span></td>
+        <td><button class="icon-btn" onclick="alert('Voir ${e.name}')">👁</button><button class="icon-btn" onclick="alert('Modifier ${e.name}')">✏️</button></td>
+       </tr>
+    `).join("");
+  }
+  function exportCSV() { let csv = "Nom,Matricule,Groupe,Moyenne,Absences,Statut\n"; etudiants.forEach(e => csv += `${e.name},${e.matricule},${e.group},${e.moyenne},${e.absences},${e.status}\n`); const blob = new Blob([csv], {type:"text/csv"}); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "etudiants.csv"; a.click(); URL.revokeObjectURL(a.href); }
+  document.getElementById("searchInput").addEventListener("input", e => renderTable(e.target.value));
+  function updateDate() { document.getElementById("currentDate").innerText = new Date().toLocaleDateString('fr-FR', { weekday:'long', year:'numeric', month:'long', day:'numeric' }).replace(/^\w/, c => c.toUpperCase()); }
+  function logout() { window.location.href = 'login.html'; }
+  updateDate(); renderTable();
+</script>
+</body>
+</html>

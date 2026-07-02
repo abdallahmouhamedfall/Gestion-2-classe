@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduClass — Planning</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">   
+<link rel="stylesheet" href="../css/planning.css"> 
+</head>
+<body>
+<div id="dashboard">
+  <div class="topbar"><div class="topbar-brand"><div class="topbar-icon">E</div> EduClass</div><div class="topbar-right"><div class="topbar-date" id="currentDate"></div><div class="avatar" onclick="logout()">AD</div></div></div>
+  <div class="app-body">
+    <nav class="sidebar">
+      <div class="sidebar-section">Principal</div><div class="nav-item"><a href="dashboard.html"><span class="nav-icon">📊</span> Tableau de bord</a></div>
+      <div class="sidebar-section">Académique</div><div class="nav-item"><a href="etudiants.html"><span class="nav-icon">🎓</span> Étudiants <span class="nav-badge">5</span></a></div>
+      <div class="nav-item"><a href="enseignants.html"><span class="nav-icon">👨‍🏫</span> Enseignants <span class="nav-badge">4</span></a></div>
+      <div class="nav-item"><a href="seances.html"><span class="nav-icon">📅</span> Séances</a></div>
+      <div class="sidebar-section">Gestion</div><div class="nav-item"><a href="notes.html"><span class="nav-icon">📝</span> Notes</a></div>
+      <div class="nav-item"><a href="evaluations.html"><span class="nav-icon">📋</span> Évaluations</a></div>
+      <div class="nav-item active"><a href="planning.html"><span class="nav-icon">🗓️</span> Planning</a></div>
+      <div class="nav-item"><a href="absences.html"><span class="nav-icon">⚠️</span> Absences <span class="nav-badge">5</span></a></div>
+      <div class="sidebar-bottom"><button class="logout-btn" onclick="logout()">🚪 Déconnexion</button></div>
+    </nav>
+    <main class="main">
+      <div class="page-header"><div><div class="page-title">Planning hebdomadaire</div><div class="page-sub" id="weekRange">Semaine du 8 au 25 juin 2026</div></div><div class="week-nav"><button class="week-btn" id="prevWeek">← Semaine précédente</button><button class="week-btn" id="nextWeek">Semaine suivante →</button></div></div>
+      <div class="planning-card"><div class="planning-grid" id="planningGrid"></div></div>
+    </main>
+  </div>
+</div>
+<script>
+  const dayNames = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
+  const timeSlots = ["08h00", "10h15", "13h30"];
+  const planningData = [
+    { day:0, time:"08h00", matiere:"Maths", salle:"A12", enseignant:"M. Benali", class:"math" },
+    { day:0, time:"13h30", matiere:"Français", salle:"C02", enseignant:"Mme Nakache", class:"lang" },
+    { day:1, time:"10h15", matiere:"Physique", salle:"L3", enseignant:"Mme Aïssaoui", class:"phys" },
+    { day:1, time:"13h30", matiere:"Histoire", salle:"B07", enseignant:"M. Dupont", class:"hist" },
+    { day:2, time:"08h00", matiere:"Informatique", salle:"Info1", enseignant:"M. Talbi", class:"info" },
+    { day:3, time:"08h00", matiere:"Maths", salle:"A12", enseignant:"M. Benali", class:"math" },
+    { day:3, time:"10h15", matiere:"Physique", salle:"L3", enseignant:"Mme Aïssaoui", class:"phys" },
+    { day:4, time:"08h00", matiere:"Histoire", salle:"B07", enseignant:"M. Dupont", class:"hist" },
+    { day:4, time:"13h30", matiere:"Français", salle:"C02", enseignant:"Mme Nakache", class:"lang" }
+  ];
+  let currentWeekOffset = 0;
+  function getWeekRange(offset) { const baseMonday = new Date(2026,5,1); baseMonday.setDate(baseMonday.getDate() + offset*7); const monday = new Date(baseMonday); const friday = new Date(monday); friday.setDate(monday.getDate()+4); return `Semaine du ${monday.getDate()} au ${friday.getDate()} ${friday.toLocaleString('fr-FR',{month:'long'})} ${friday.getFullYear()}`; }
+  function renderPlanning() {
+    document.getElementById("weekRange").innerText = getWeekRange(currentWeekOffset);
+    let html = '<div></div>'; for(let i=0;i<dayNames.length;i++) html += `<div class="plan-header">${dayNames[i]}</div>`;
+    for(let time of timeSlots) {
+      html += `<div class="plan-time">${time}</div>`;
+      for(let d=0; d<dayNames.length; d++) {
+        const events = planningData.filter(ev => ev.day === d && ev.time === time);
+        let cell = '<div class="plan-cell">';
+        events.forEach(ev => { cell += `<div class="plan-event ${ev.class}"><strong>${ev.matiere}</strong><small>${ev.salle} · ${ev.enseignant}</small></div>`; });
+        cell += '</div>';
+        html += cell;
+      }
+    }
+    document.getElementById("planningGrid").innerHTML = html;
+  }
+  document.getElementById("prevWeek").addEventListener("click", () => { currentWeekOffset--; renderPlanning(); });
+  document.getElementById("nextWeek").addEventListener("click", () => { currentWeekOffset++; renderPlanning(); });
+  function updateDate() { document.getElementById("currentDate").innerText = new Date().toLocaleDateString('fr-FR', { weekday:'long', year:'numeric', month:'long', day:'numeric' }).replace(/^\w/, c => c.toUpperCase()); }
+  function logout() { window.location.href = 'login.html'; }
+  updateDate(); renderPlanning();
+</script>
+</body>
+</html>

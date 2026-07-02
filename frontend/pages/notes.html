@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/notes.css">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <span class="logo-icon">E</span>
+            <div>
+                <h2>EduClass</h2>
+                <p>Gestion Acad&eacute;mique</p>
+            </div>
+        </div>
+
+        <nav>
+            <h4>Principal</h4>
+            <a href="dashboard.html">&#128202; Tableau de bord</a>
+
+            <h4>Acad&eacute;mique</h4>
+            <a href="etudiants.html">&#127891; &Eacute;tudiants <span>42</span></a>
+            <a href="enseignants.html">&#128104;&#8205;&#127979; Enseignants <span>8</span></a>
+            <a href="seances.html">&#128197; S&eacute;ances</a>
+
+            <h4>Gestion</h4>
+            <a href="notes.html" class="active">&#128221; Notes</a>
+            <a href="evaluations.html">&#128203; &Eacute;valuations</a>
+            <a href="planning.html">&#128467;&#65039; Planning</a>
+            <a href="absences.html">&#9888;&#65039; Absences <span>5</span></a>
+        </nav>
+
+        <button class="logout-btn" type="button">&#128682; D&eacute;connexion</button>
+    </aside>
+
+    <main class="main">
+        <header class="page-header">
+            <p class="date">Mercredi 10 juin 2026</p>
+            <div class="header-actions">
+                <button class="icon-button" aria-label="Notifications">&#128276;</button>
+                <div class="avatar">AD</div>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div>
+                <h1>Notes</h1>
+                <p>Relev&eacute;s de notes &mdash; Juin 2026</p>
+            </div>
+        </section>
+
+        <section class="content-grid">
+            <article class="notes-card">
+                <div class="card-header">
+                    <h3>&#128202; Notes par &eacute;tudiant</h3>
+                    <div class="search-bar">
+                        <span class="search-icon" aria-hidden="true">&#128269;</span>
+                        <input type="text" placeholder="Filtrer &eacute;tudiants..." class="search-input">
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="notes-table">
+                        <thead>
+                            <tr>
+                                <th>&Eacute;tudiants</th>
+                                <th>Maths</th>
+                                <th>Physique</th>
+                                <th>Fran&ccedil;ais</th>
+                                <th>Moyenne</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Penda Coly</td>
+                                <td><span class="note-value excellent">16</span></td>
+                                <td><span class="note-value good">15</span></td>
+                                <td><span class="note-value good">14</span></td>
+                                <td><span class="note-value average">15.2</span></td>
+                            </tr>
+                            <tr>
+                                <td>Ndeye Yacine Ndiaye</td>
+                                <td><span class="note-value average">12</span></td>
+                                <td><span class="note-value average">13</span></td>
+                                <td><span class="note-value average">13</span></td>
+                                <td><span class="note-value average">12.8</span></td>
+                            </tr>
+                            <tr>
+                                <td>Fatou Gniop</td>
+                                <td><span class="note-value excellent">18</span></td>
+                                <td><span class="note-value excellent">17</span></td>
+                                <td><span class="note-value excellent">16</span></td>
+                                <td><span class="note-value excellent">17.1</span></td>
+                            </tr>
+                            <tr>
+                                <td>Yacine Meziane</td>
+                                <td><span class="note-value poor">7</span></td>
+                                <td><span class="note-value poor">9</span></td>
+                                <td><span class="note-value neutral">10</span></td>
+                                <td><span class="note-value poor">8.3</span></td>
+                            </tr>
+                            <tr>
+                                <td>Lina Khelil</td>
+                                <td><span class="note-value good">15</span></td>
+                                <td><span class="note-value good">14</span></td>
+                                <td><span class="note-value good">15</span></td>
+                                <td><span class="note-value average">14.7</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+
+            <article class="distribution-card">
+                <div class="card-header">
+                    <h3>Distribution des moyennes g&eacute;n&eacute;rales</h3>
+                </div>
+
+                <div class="distribution-content">
+                    <div class="distribution-bars">
+                        <div class="bar-row">
+                            <div class="bar-meta">
+                                <span>Tr&egrave;s bien (&ge;16)</span>
+                                <span>1 &eacute;l&egrave;ves</span>
+                            </div>
+                            <div class="bar-track"><span class="bar-fill excellent" style="width: 48%;"></span></div>
+                        </div>
+                        <div class="bar-row">
+                            <div class="bar-meta">
+                                <span>Bien (14&ndash;16)</span>
+                                <span>2 &eacute;l&egrave;ves</span>
+                            </div>
+                            <div class="bar-track"><span class="bar-fill good" style="width: 38%;"></span></div>
+                        </div>
+                        <div class="bar-row">
+                            <div class="bar-meta">
+                                <span>Assez bien (12&ndash;14)</span>
+                                <span>1 &eacute;l&egrave;ves</span>
+                            </div>
+                            <div class="bar-track"><span class="bar-fill average" style="width: 28%;"></span></div>
+                        </div>
+                        <div class="bar-row">
+                            <div class="bar-meta">
+                                <span>Passable (10&ndash;12)</span>
+                                <span>0 &eacute;l&egrave;ves</span>
+                            </div>
+                            <div class="bar-track"><span class="bar-fill neutral" style="width: 0%;"></span></div>
+                        </div>
+                        <div class="bar-row">
+                            <div class="bar-meta">
+                                <span>Insuffisant (&lt;10)</span>
+                                <span>1 &eacute;l&egrave;ves</span>
+                            </div>
+                            <div class="bar-track"><span class="bar-fill poor" style="width: 18%;"></span></div>
+                        </div>
+                    </div>
+
+                    <div class="distribution-legend-dots">
+                        <div class="legend-dot-item">
+                            <span class="dot excellent"></span>
+                            <span class="dot-label">Tr&egrave;s bien (&ge;16)</span>
+                            <span class="dot-count">1</span>
+                        </div>
+                        <div class="legend-dot-item">
+                            <span class="dot good"></span>
+                            <span class="dot-label">Bien (14&ndash;16)</span>
+                            <span class="dot-count">2</span>
+                        </div>
+                        <div class="legend-dot-item">
+                            <span class="dot average"></span>
+                            <span class="dot-label">Assez bien (12&ndash;14)</span>
+                            <span class="dot-count">1</span>
+                        </div>
+                        <div class="legend-dot-item">
+                            <span class="dot neutral"></span>
+                            <span class="dot-label">Passable (10&ndash;12)</span>
+                            <span class="dot-count">0</span>
+                        </div>
+                        <div class="legend-dot-item">
+                            <span class="dot poor"></span>
+                            <span class="dot-label">Insuffisant (&lt;10)</span>
+                            <span class="dot-count">1</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+    <script src="../js/app.js"></script>
+</body>
+
+</html>
