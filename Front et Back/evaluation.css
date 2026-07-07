@@ -1,0 +1,411 @@
+/* ==========================================================================
+   1. VARIABLES DE COULEURS EXACTES (PALETTE PREMIUM DARK)
+   ========================================================================== */
+:root {
+    --bg-main: #0b131f;         /* Fond général de la page */
+    --bg-sidebar: #0b131f;      /* La sidebar partage le même fond sombre */
+    --bg-card: #111a2e;         /* Fond du tableau / conteneur principal */
+    --bg-input: #1b263b;        /* Fond de la barre de recherche et filtres */
+    
+    --text-primary: #ffffff;
+    --text-muted: #62728d;      /* Texte secondaire / grisé */
+    
+    /* Couleurs fonctionnelles */
+    --accent-teal: #00f2fe;     /* Cyan électrique pour le bouton principale */
+    --accent-teal-bg: #00f2fe;  
+    
+    /* Couleurs des Badges (Type & Statut) */
+    --badge-ecrit-bg: rgba(0, 242, 254, 0.1);
+    --badge-ecrit-text: #00f2fe;
+    
+    --badge-pratique-bg: rgba(56, 189, 248, 0.1);
+    --badge-pratique-text: #38bdf8;
+    
+    --badge-oral-bg: rgba(251, 191, 36, 0.1);
+    --badge-oral-text: #fbbf24;
+    
+    --status-avenir-bg: rgba(0, 242, 254, 0.1);
+    --status-avenir-text: #00f2fe;
+    
+    --status-encours-bg: rgba(251, 191, 36, 0.1);
+    --status-encours-text: #fbbf24;
+    
+    --status-corrige-bg: rgba(52, 211, 153, 0.1);
+    --status-corrige-text: #34d399;
+}
+
+/* ==========================================================================
+   2. STYLES DE BASE
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+body {
+    display: flex;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   3. BARRE LATÉRALE (SIDEBAR)
+   ========================================================================== */
+.sidebar {
+    width: 240px;
+    background-color: var(--bg-sidebar);
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(255, 255, 255, 0.03);
+    height: 100vh;
+    position: fixed;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.logo-icon {
+    background-color: #0d9488;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.logo h2 {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.logo p {
+    display: none; /* Masqué sur la photo */
+}
+
+.sidebar nav h4 {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    margin: 20px 0 8px 8px;
+}
+
+.sidebar nav a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    margin-bottom: 2px;
+}
+
+.sidebar nav a:hover {
+    color: var(--text-primary);
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.sidebar nav a.active {
+    background: linear-gradient(90deg, rgba(13, 148, 136, 0.15) 0%, rgba(13, 148, 136, 0) 100%);
+    color: #2dd4bf;
+    border-left: 3px solid #2dd4bf;
+    padding-left: 9px; /* Ajustement pour compenser la bordure */
+}
+
+.sidebar nav a span {
+    font-size: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 1px 6px;
+    border-radius: 10px;
+    color: var(--text-muted);
+}
+
+/* Couleurs spécifiques des compteurs sur la photo */
+.sidebar nav a[href="etudiants.html"] span {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+.sidebar nav a[href="enseignants.html"] span {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+.sidebar nav a[href="absences.html"] span {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+color: var(--text-muted);
+    padding: 12px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    margin-top: auto;
+    text-align: left;
+}
+
+/* ==========================================================================
+   4. ZONE PRINCIPALE (MAIN CONTENT)
+   ========================================================================== */
+.main {
+    margin-left: 240px;
+    flex-grow: 1;
+    padding: 20px 40px;
+}
+
+.page-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.page-header .date {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-right: 16px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    color: #fbbf24; /* Cloche jaune */
+    cursor: pointer;
+}
+
+.avatar {
+    background-color: #f97316; /* Orange AD */
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Titre principal Évaluations */
+.hero {
+    margin-bottom: 24px;
+}
+
+.hero-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.hero h1 {
+    font-family: 'Playfair Display', Georgia, serif; /* Style serif élégant du titre */
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.hero p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.btn-add-eval {
+    background: #00f2fe;
+    color: #0b131f;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   5. COMPOSANT BLOC DE TABLEAU (CARD)
+   ========================================================================== */
+.evaluations-section {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Barre de recherche et filtres */
+.toolbar-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.search-bar {
+    position: relative;
+    flex-grow: 1;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #38bdf8; /* Loupe bleutée */
+    font-size: 0.85rem;
+}
+
+.search-input {
+    width: 100%;
+    background-color: var(--bg-input);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    padding: 12px 12px 12px 40px;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+}
+
+.search-input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.6;
+}
+
+.toolbar-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-filter, .btn-export {
+    background-color: var(--bg-input);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    color: #cbd5e1;
+    padding: 0 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ==========================================================================
+   6. TABLEAU STYLE EXCLUSIF
+   ========================================================================== */
+.evaluations-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.evaluations-table th {
+    color: var(--text-muted);
+    font-weight: 500;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    text-transform: capitalize;
+}
+
+.evaluations-table td {
+    padding: 18px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    color: #e2e8f0;
+}
+
+/* Rendre la première colonne (Titre de l'évaluation) plus lumineuse/grasse */
+.evaluations-table tbody tr td:first-child {
+    font-weight: 600;
+    color: #ffffff;
+}
+
+/* Gestion de la couleur des lignes au survol */
+.evaluations-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.01);
+}
+
+/* --- BADGES (STRICTEMENT COMME SUR LA PHOTO) --- */
+.type-badge, .status-badge {
+display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-align: center;
+    min-width: 75px;
+}
+
+/* Types */
+.type-badge.exam {
+    background-color: rgba(13, 148, 136, 0.2);
+    color: #2dd4bf;
+}
+.type-badge.pratique {
+    background-color: rgba(14, 116, 144, 0.2);
+    color: #22d3ee;
+}
+.type-badge.oral {
+    background-color: rgba(217, 119, 6, 0.2);
+    color: #fbbf24;
+}
+
+/* Statuts */
+.status-badge.upcoming {
+    background-color: rgba(14, 116, 144, 0.2);
+    color: #22d3ee;
+}
+.status-badge.initiated {
+    background-color: rgba(217, 119, 6, 0.2);
+    color: #fbbf24;
+}
+.status-badge.completed {
+    background-color: rgba(22, 163, 74, 0.2);
+    color: #4ade80;
+}
+
+/* --- ACTIONS (ICONES PETITES ET COULEURS DÉDIÉES) --- */
+.action-icons {
+    display: flex;
+    gap: 12px;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.icon-btn:hover {
+    opacity: 1;
+}
+
+/* Icône Modifier (Crayon orange subtil sur la photo) */
+.icon-btn[aria-label="Modifier"] {
+    color: #ea580c; 
+}
+
+/* Icône Supprimer (Poubelle grise) */
+.icon-btn[aria-label="Supprimer"] {
+    color: #94a3b8;
+}

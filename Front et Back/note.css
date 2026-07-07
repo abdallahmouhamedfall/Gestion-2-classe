@@ -1,0 +1,402 @@
+ /* ==========================================================================
+   1. VARIABLES & CONFIGURATION GENERALE
+   ========================================================================== */
+:root {
+    --bg-main: #0b131f;       /* Fond principal très sombre */
+    --bg-sidebar: #111c2c;    /* Fond de la barre latérale */
+    --bg-card: #162235;       /* Fond des cartes et tableaux */
+    --text-primary: #ffffff;
+    --text-secondary: #7e8b9b;
+    --border-color: #202e43;
+    
+    /* Couleurs de statut (Notes & Distribution) */
+    --color-excellent: #00bfa5; /* Vert/Turquoise (Très bien) */
+    --color-good: #00b0ff;      /* Bleu (Bien) */
+    --color-average: #ffb300;   /* Orange/Jaune (Assez bien) */
+    --color-neutral: #a0aec0;   /* Gris (Passable) */
+    --color-poor: #ff5252;      /* Rouge (Insuffisant) */
+    
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   2. BARRE LATERALE (SIDEBAR)
+   ========================================================================== */
+.sidebar {
+    width: 260px;
+    background-color: var(--bg-sidebar);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.logo-icon {
+    background-color: var(--color-excellent);
+    color: var(--bg-main);
+    font-weight: bold;
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.logo h2 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.logo p {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.sidebar nav h4 {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    margin: 24px 0 12px 0;
+}
+
+.sidebar nav a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 4px;
+    transition: all 0.3s ease;
+}
+
+.sidebar nav a:hover, .sidebar nav a.active {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+}
+
+.sidebar nav a.active {
+    border-left: 4px solid var(--color-excellent);
+    background-color: rgba(0, 191, 165, 0.1);
+}
+
+.sidebar nav a span {
+    background-color: #1e2d42;
+    color: var(--text-primary);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+}
+
+/* Cas particulier du badge rouge pour les absences */
+.sidebar nav h4 + a + a + a + a span {
+    background-color: rgba(255, 82, 82, 0.2);
+    color: var(--color-poor);
+}
+
+.logout-btn {
+    margin-top: auto;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logout-btn:hover {
+    color: var(--color-poor);
+}
+
+/* ==========================================================================
+   3. CONTENU PRINCIPAL & HEADER
+   ========================================================================== */
+.main {
+    flex-grow: 1;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: calc(100% - 260px);
+}
+
+.page-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 24px;
+}
+
+.page-header .date {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+color: var(--text-primary);
+}
+
+.avatar {
+    background-color: #e65100;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.hero h1 {
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.hero p {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+/* ==========================================================================
+   4. DISPOSITION EN GRILLE (CARDS)
+   ========================================================================== */
+.content-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.notes-card, .distribution-card {
+    background-color: var(--bg-card);
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid var(--border-color);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.card-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Barre de recherche */
+.search-bar {
+    position: relative;
+    width: 220px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.search-input {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 8px 12px 8px 36px;
+    color: var(--text-primary);
+    font-size: 13px;
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   5. TABLEAU DES NOTES
+   ========================================================================== */
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.notes-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.notes-table th {
+    color: var(--text-secondary);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 12px 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.notes-table td {
+    padding: 16px 8px;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.notes-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Badges de couleur pour les valeurs numériques */
+.note-value {
+    font-weight: 600;
+}
+
+.note-value.excellent { color: var(--color-excellent); }
+.note-value.good { color: var(--color-good); }
+.note-value.average { color: var(--color-average); }
+.note-value.neutral { color: var(--text-primary); }
+.note-value.poor { color: var(--color-poor); }
+
+/* ==========================================================================
+   6. SECTION DISTRIBUTION (BARRES & LEGENDE)
+   ========================================================================== */
+.distribution-content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.distribution-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.bar-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.bar-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+.bar-meta span:first-child {
+    color: var(--text-secondary);
+}
+
+.bar-meta span:last-child {
+    color: var(--text-primary);
+}
+
+/* Piste de la jauge */
+.bar-track {
+    background-color: rgba(255, 255, 255, 0.05);
+    height: 8px;
+    border-radius: 4px;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Remplissage de la jauge */
+.bar-fill {
+    display: block;
+    height: 100%;
+    border-radius: 4px;
+}
+
+.bar-fill.excellent { background-color: var(--color-excellent); }
+.bar-fill.good { background-color: var(--color-good); }
+.bar-fill.average { background-color: var(--color-average); }
+.bar-fill.neutral { background-color: var(--color-neutral); }
+.bar-fill.poor { background-color: var(--color-poor); }
+
+/* Section Légende (Dots) */
+.distribution-legend-dots {
+    display: flex;
+ flex-direction: column;
+    gap: 14px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 24px;
+}
+
+.legend-dot-item {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.dot.excellent { background-color: var(--color-excellent); }
+.dot.good { background-color: var(--color-good); }
+.dot.average { background-color: var(--color-average); }
+.dot.neutral { background-color: var(--color-neutral); }
+.dot.poor { background-color: var(--color-poor); }
+
+.dot-label {
+    color: var(--text-secondary);
+    flex-grow: 1;
+}
+
+.dot-count {
+    font-weight: 500;
+}

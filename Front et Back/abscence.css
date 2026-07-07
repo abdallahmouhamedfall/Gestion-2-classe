@@ -1,0 +1,224 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: #0a0e1a;
+    color: #e2e8f0;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ===== ABSENCES INTERFACE ===== */
+.layout { display: flex; min-height: 100vh; }
+
+.sidebar {
+    width: 250px;
+    background: #0a0e1a;
+    border-right: 1px solid #1e293b;
+    padding: 24px 16px;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.logo-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: #bdc5c9;
+    font-weight: 700;
+}
+
+.section {
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    margin: 28px 0 12px 4px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.nav-link.active {
+    background: rgba(20, 184, 166, 0.15);
+    color: #14b8a6;
+    font-weight: 600;
+}
+
+.badge-count {
+    margin-left: auto;
+    color: #0a0e1a;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.badge-count.green { background: #14b8a6; color: #0a0e1a; }
+.badge-count.red { background: #ef4444; color: #ffffff; }
+
+.main {
+    margin-left: 250px;
+    flex: 1;
+    padding: 32px 40px;
+}
+
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #ffffff;
+}
+
+.page-subtitle {
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.stat-box {
+    background: #131a2b;
+    border-radius: 12px;
+    padding: 28px 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.stat-num {
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.stat-num.red { color: #f87171; }
+.stat-num.yellow { color: #fbbf24; }
+.stat-num.cyan { color: #22d3ee; }
+
+.stat-txt {
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.table-container {
+    background: #131a2b;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.search-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.search-box {
+    flex: 1;
+    background: #1e293b;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: #e2e8f0;
+    font-size: 14px;
+}
+
+.btn-secondary {
+    background: #1e293b;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    color: #e2e8f0;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.absence-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.absence-table th {
+    text-align: left;
+    padding: 14px 16px;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border-bottom: 1px solid #1e293b;
+}
+
+.absence-table td {
+    padding: 16px;
+    border-bottom: 1px solid #1e293b;
+    font-size: 14px;
+    color: #cbd5e1;
+}
+
+.student-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+}
+
+.avatar-small {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 12px;
+    color: #0a0e1a;
+}
+
+.tag {
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.tag.absence { background: rgba(248, 113, 113, 0.15); color: #f87171; }
+.tag.retard { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
+.tag.oui { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+.tag.non { background: rgba(248, 113, 113, 0.15); color: #f87171; }
+.tag.partiel { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
+
+.action-icons {
+    display: flex;
+    gap: 12px;
+    font-size: 14px;
+}
