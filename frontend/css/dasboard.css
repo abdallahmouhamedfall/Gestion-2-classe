@@ -98,3 +98,4 @@
   .prog-bar { height:4px; background:rgba(255,255,255,.08); border-radius:2px; margin-top:4px; }
   .prog-fill { height:100%; border-radius:2px; }
   @media(max-width:1100px){ .stats-grid{grid-template-columns:repeat(2,1fr);} .seances-grid{grid-template-columns:1fr;} .charts-row{grid-template-columns:1fr;} }
+ 

@@ -27,17 +27,17 @@
       <div class="page-header"><div><div class="page-title">Enseignants</div><div class="page-sub">Corps enseignant — 4 professeurs</div></div><button class="btn-primary" onclick="alert('Ajouter enseignant')">+ Ajouter enseignant</button></div>
       <div class="table-card">
         <div class="table-search"><input class="search-inp" id="searchInput" placeholder="🔍 Rechercher un enseignant..."><button class="icon-btn" onclick="alert('Filtre')">⚙️</button><button class="icon-btn" onclick="exportCSV()">📎</button></div>
-        <table><thead><tr><th>Enseignant</th><th>Matière</th><th>Séances/sem.</th><th>Heures totales</th><th>Étudiants</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="tableBody"></tbody></table>
+        <table><thead><tr><th>Enseignant</th><th>Matière</th><th>Cours Donnés</th><th>Heures totales</th><th>Étudiants</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="tableBody"></tbody></table>
       </div>
     </main>
   </div>
 </div>
 <script>
   const enseignants = [
-    { name: "M. Benali", initials: "MB", email: "m.benali@educlass.fr", matiere: "Mathématiques", matiereClass: "badge-green", seances: 6, heures: 48, etudiants: 5, status: "Présent", statusClass: "badge-green" },
-    { name: "Mme Aïssaoui", initials: "KA", email: "k.aissaoui@educlass.fr", matiere: "Physique-Chimie", matiereClass: "badge-sky", seances: 5, heures: 40, etudiants: 5, status: "Présent", statusClass: "badge-green" },
-    { name: "M. Dupont", initials: "DL", email: "d.dupont@educlass.fr", matiere: "Histoire-Géo", matiereClass: "badge-amber", seances: 4, heures: 32, etudiants: 5, status: "En congé", statusClass: "badge-amber" },
-    { name: "Mme Nakache", initials: "NB", email: "n.nakache@educlass.fr", matiere: "Français", matiereClass: "badge-sky", seances: 5, heures: 40, etudiants: 5, status: "Présent", statusClass: "badge-green" }
+    { name: "M. Benali", initials: "MB", matiere: "Mathématiques", matiereClass: "badge-green", cours: 6, heures: 48, etudiants: 5, status: "Présent", statusClass: "badge-green" },
+    { name: "Mme Aïssaoui", initials: "KA", matiere: "Physique-Chimie", matiereClass: "badge-sky", cours: 5, heures: 40, etudiants: 5, status: "Présent", statusClass: "badge-green" },
+    { name: "M. Dupont", initials: "DL", matiere: "Histoire-Géo", matiereClass: "badge-amber", cours: 4, heures: 32, etudiants: 5, status: "En congé", statusClass: "badge-amber" },
+    { name: "Mme Nakache", initials: "NB", matiere: "Français", matiereClass: "badge-sky", cours: 5, heures: 40, etudiants: 5, status: "Présent", statusClass: "badge-green" }
   ];
   function renderTable(filter = "") {
     const tbody = document.getElementById("tableBody");
@@ -45,15 +45,15 @@
     const filtered = enseignants.filter(e => e.name.toLowerCase().includes(f) || e.matiere.toLowerCase().includes(f));
     tbody.innerHTML = filtered.map(e => `
       <tr>
-        <td><div class="td-user"><div class="avatar-sm">${e.initials}</div><div><div class="td-name">${e.name}</div><div class="td-email" style="font-size:11px;color:var(--text-muted)">${e.email}</div></div></div></td>
+        <td><div class="td-user"><div class="avatar-sm">${e.initials}</div><div><div class="td-name">${e.name}</div><div class="" style="font-size:11px;color:var(--text-muted)"></div></div></div></td>
         <td><span class="badge ${e.matiereClass}">${e.matiere}</span></td>
-        <td>${e.seances}</td><td>${e.heures}h</td><td>${e.etudiants}</td>
+        <td>${e.cours}</td><td>${e.heures}h</td><td>${e.etudiants}</td>
         <td><span class="badge ${e.statusClass}">${e.status}</span></td>
         <td><button class="icon-btn" onclick="alert('Voir ${e.name}')">👁</button><button class="icon-btn" onclick="alert('Modifier ${e.name}')">✏️</button></td>
       </tr>
     `).join("");
   }
-  function exportCSV() { let csv = "Nom,Matière,Séances/sem.,Heures,Étudiants,Statut\n"; enseignants.forEach(e => csv += `${e.name},${e.matiere},${e.seances},${e.heures},${e.etudiants},${e.status}\n`); const blob = new Blob([csv], {type:"text/csv"}); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "enseignants.csv"; a.click(); URL.revokeObjectURL(a.href); }
+  function exportCSV() { let csv = "Nom,Matière,Cours Donnés,Heures,Étudiants,Statut\n"; enseignants.forEach(e => csv += `${e.name},${e.matiere},${e.coursdonnés},${e.heures},${e.etudiants},${e.status}\n`); const blob = new Blob([csv], {type:"text/csv"}); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "enseignants.csv"; a.click(); URL.revokeObjectURL(a.href); }
   document.getElementById("searchInput").addEventListener("input", e => renderTable(e.target.value));
   function updateDate() { document.getElementById("currentDate").innerText = new Date().toLocaleDateString('fr-FR', { weekday:'long', year:'numeric', month:'long', day:'numeric' }).replace(/^\w/, c => c.toUpperCase()); }
   function logout() { window.location.href = 'login.html'; }
