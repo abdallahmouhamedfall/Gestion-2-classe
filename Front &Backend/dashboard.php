@@ -11,8 +11,17 @@ require_once(__DIR__ . "/../config/config.php");
 $nbEtudiants = $conn->query("SELECT COUNT(*) AS n FROM etudiants")->fetch_assoc()['n'];
 $nbEnseignants = $conn->query("SELECT COUNT(*) AS n FROM enseignants")->fetch_assoc()['n'];
 
-$rowMoy = $conn->query("SELECT AVG(note) AS moyenne FROM notes")->fetch_assoc();
-$moyenneGenerale = $rowMoy['moyenne'] !== null ? round((float)$rowMoy['moyenne'], 1) : null;
+$rowsMoy = $conn->query(
+    "SELECT AVG(n.note) AS avg_note, m.heure_totale
+     FROM notes n JOIN matieres m ON n.id_matiere = m.id_matiere
+     GROUP BY n.id_matiere"
+)->fetch_all(MYSQLI_ASSOC);
+$sommePonderee = 0; $sommeCoef = 0;
+foreach ($rowsMoy as $r) {
+    $sommePonderee += (float)$r['avg_note'] * (int)$r['heure_totale'];
+    $sommeCoef += (int)$r['heure_totale'];
+}
+$moyenneGenerale = $sommeCoef > 0 ? round($sommePonderee / $sommeCoef, 1) : null;
 
 $absencesSemaine = $conn->query(
     "SELECT COUNT(*) AS n FROM absences WHERE YEARWEEK(date_absence, 1) = YEARWEEK(CURDATE(), 1)"
@@ -27,7 +36,7 @@ $resMat = $conn->query(
 );
 while ($r = $resMat->fetch_assoc()) {
     $moy = $r['moyenne'] !== null ? round((float)$r['moyenne'], 1) : 0;
-    $matieresChart[] = ["label" => $r['nom_matiere'], "moyenne" => $moy, "height" => min(100, round(($moy / 20) * 100))];
+    $matieresChart[] = ["label" => $r['nom_matiere'], "moyenne" => $moy, "height" => min(70, round(($moy / 20) * 70))];
 }
 
 // --- Taux de présence (approximatif : absences vs séances programmées x étudiants) ---
@@ -37,28 +46,43 @@ $capaciteTotale = $nbCours * max($nbEtudiants, 1);
 $tauxAbsence = $capaciteTotale > 0 ? round(($totalAbsences / $capaciteTotale) * 100) : 0;
 $tauxPresence = 100 - $tauxAbsence;
 
-// --- Prochains cours (pas de date/heure/salle dans le schéma actuel) ---
+// --- Prochains cours programmés (date >= aujourd'hui, triés par date/heure) ---
 $prochainesSeances = [];
 $resSeances = $conn->query(
-    "SELECT m.nom_matiere, e.nom AS ens_nom, e.prenom AS ens_prenom, c.duree
+    "SELECT m.nom_matiere, e.nom AS ens_nom, e.prenom AS ens_prenom, c.duree, c.date_cours, c.heure_debut, c.salle, c.statut
      FROM cours c
      JOIN matieres m ON c.id_matiere = m.id_matiere
      JOIN enseignants e ON c.Matricule = e.Matricule
-     ORDER BY c.id_cours DESC LIMIT 3"
+     WHERE c.date_cours IS NULL OR c.date_cours >= CURDATE()
+     ORDER BY (c.date_cours IS NULL), c.date_cours ASC, c.heure_debut ASC
+     LIMIT 3"
 );
+$today = new DateTime();
+$tomorrow = (new DateTime())->modify('+1 day');
+$statutClassesDash = ["Planifiée" => "badge-amber", "En cours" => "badge-green", "Terminée" => "badge-sky"];
 while ($r = $resSeances->fetch_assoc()) {
     $initials = strtoupper(mb_substr($r['ens_prenom'], 0, 1) . mb_substr($r['ens_nom'], 0, 1));
+    $dateLabel = "Non planifiée";
+    if ($r['date_cours']) {
+        $d = new DateTime($r['date_cours']);
+        if ($d->format('Y-m-d') === $today->format('Y-m-d')) $dateLabel = "Aujourd'hui";
+        elseif ($d->format('Y-m-d') === $tomorrow->format('Y-m-d')) $dateLabel = "Demain";
+        else $dateLabel = $d->format('d/m/Y');
+    }
+    $heure = $r['heure_debut'] ? (new DateTime($r['heure_debut']))->format('H\hi') : '—';
     $prochainesSeances[] = [
         "matiere" => $r['nom_matiere'],
         "enseignant" => $r['ens_prenom'] . ' ' . $r['ens_nom'],
         "initials" => $initials,
-        "duree" => $r['duree']
+        "date" => $dateLabel,
+        "heure" => $heure,
+        "salle" => $r['salle'] ?: '—',
+        "statut" => $r['statut'],
+        "statutClass" => $statutClassesDash[$r['statut']] ?? 'badge-amber'
     ];
 }
 ?>
-<?php
-require_once("../config/auth.php");
-?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -134,8 +158,8 @@ require_once("../config/auth.php");
   .chart-card { background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:22px; }
   .chart-card h4 { font-size:14px; font-weight:600; margin-bottom:18px; }
   .bar-chart { display:flex; align-items:flex-end; gap:10px; height:100px; }
-  .bar-wrap { flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; }
-  .bar { width:100%; border-radius:6px 6px 0 0; }
+  .bar-wrap { flex:1; height:100%; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:6px; }
+  .bar { width:100%; min-height:2px; border-radius:6px 6px 0 0; }
   .bar-label { font-size:10px; color:var(--text-muted); }
   .donut-wrap { display:flex; align-items:center; gap:18px; }
   .donut { position:relative; width:90px; height:90px; }
@@ -203,7 +227,7 @@ require_once("../config/auth.php");
         <?php if (empty($matieresChart)): ?>
           <div style="color:var(--text-muted);font-size:12px;">Aucune matière enregistrée.</div>
         <?php else: foreach ($matieresChart as $mc): ?>
-          <div class="bar-wrap"><div class="bar" style="height:<?= $mc['height'] ?>%;background:linear-gradient(to top,var(--teal),rgba(0,201,167,.4))"></div><div class="bar-label"><?= htmlspecialchars($mc['label']) ?></div></div>
+          <div class="bar-wrap"><div class="bar" style="height:<?= $mc['height'] ?>px;background:linear-gradient(to top,var(--teal),rgba(0,201,167,.4))"></div><div class="bar-label"><?= htmlspecialchars($mc['label']) ?></div></div>
         <?php endforeach; endif; ?>
         </div></div>
         <div class="chart-card"><h4>Taux de présence</h4><div class="donut-wrap"><div class="donut"><svg viewBox="0 0 80 80" width="90" height="90"><circle cx="40" cy="40" r="30" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="10"/><circle cx="40" cy="40" r="30" fill="none" stroke="var(--teal)" stroke-width="10" stroke-dasharray="<?= round(($tauxPresence/100)*188) ?> 188" stroke-linecap="round"/><circle cx="40" cy="40" r="30" fill="none" stroke="var(--rose)" stroke-width="10" stroke-dasharray="<?= round(($tauxAbsence/100)*188) ?> 188" stroke-dashoffset="-<?= round(($tauxPresence/100)*188) ?>" stroke-linecap="round"/></svg><div class="donut-val"><?= $tauxPresence ?>%</div></div><div class="donut-legend"><div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> Présents <?= $tauxPresence ?>%</div><div class="legend-item"><div class="legend-dot" style="background:var(--rose)"></div> Absents <?= $tauxAbsence ?>%</div></div></div></div>
@@ -214,7 +238,8 @@ require_once("../config/auth.php");
           <div style="color:var(--text-muted);font-size:13px;">Aucun cours programmé pour le moment.</div>
         <?php else: foreach ($prochainesSeances as $s): ?>
           <div class="seance-card">
-            <div class="seance-top"><div><div class="seance-matiere"><?= htmlspecialchars($s['matiere']) ?></div><div class="seance-time"><?= (int)$s['duree'] ?> min</div></div></div>
+            <div class="seance-top"><div><div class="seance-matiere"><?= htmlspecialchars($s['matiere']) ?></div><div class="seance-time">📅 <?= htmlspecialchars($s['date']) ?> — <?= htmlspecialchars($s['heure']) ?></div></div><span class="badge <?= $s['statutClass'] ?>"><?= htmlspecialchars($s['statut']) ?></span></div>
+            <div class="seance-room">📍 <?= htmlspecialchars($s['salle']) ?></div>
             <div class="seance-teacher"><div class="avatar-sm"><?= htmlspecialchars($s['initials']) ?></div> <?= htmlspecialchars($s['enseignant']) ?></div>
           </div>
         <?php endforeach; endif; ?>

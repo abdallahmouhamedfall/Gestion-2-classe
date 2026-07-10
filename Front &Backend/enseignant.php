@@ -212,7 +212,7 @@ while ($row = $result->fetch_assoc()) {
       }
       tbody.innerHTML = filtered.map(e => `
         <tr>
-          <td><div class="td-user"><div class="avatar-sm">${e.initials}</div><div><div class="td-name">${e.name}</div><div class="td-email" style="font-size:11px;color:var(--text-muted)">${e.telephone}</div></div></div></td>
+          <td><div class="td-user"><div class="avatar-sm">${e.initials}</div><div><div class="td-name">${e.name}</div></div></div></td>
           <td><span class="badge ${e.matiereClass}">${e.matiere}</span></td>
           <td>${e.seances}</td><td>${e.heures}h</td>
           <td><span class="badge ${e.statusClass}">${e.status}</span></td>
@@ -223,7 +223,7 @@ while ($row = $result->fetch_assoc()) {
     function openViewModal(matricule) {
       const e = enseignants.find(x => x.matricule === matricule);
       if (!e) return;
-      alert(`${e.name}\nMatière(s): ${e.matiere}\nTéléphone: ${e.telephone}\nAdresse: ${e.adresse || '—'}\nCours donnés: ${e.seances}\nHeures totales: ${e.heures}h\nStatut: ${e.status}`);
+      alert(`${e.name}\nMatière(s): ${e.matiere} \nAdresse: ${e.adresse || '—'}\nCours donnés: ${e.seances}\nHeures totales: ${e.heures}h\nStatut: ${e.status}`);
     }
     document.getElementById("matiereFilter").addEventListener("change", () => renderTable(document.getElementById("searchInput").value));
     function openAddModal() {
