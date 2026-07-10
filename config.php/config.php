@@ -1,21 +1,12 @@
 <?php
 
 $host = "localhost";
+$dbname = "educlass";
 $user = "root";
 $password = "";
-$database = "educlass";
 
-
-$conn = new mysqli(
-    $host,
-    $user,
-    $password,
-    $database
-);
-
+$conn = new mysqli($host, $user, $password, $dbname);
 
 if ($conn->connect_error) {
     die("Erreur de connexion : " . $conn->connect_error);
 }
-
-?>
